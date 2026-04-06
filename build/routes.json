@@ -66580,6 +66580,37 @@
     "url": "www.j-test.com",
     "lang": "ja"
   },
+  "jable": {
+    "routes": {
+      "/search/:query": {
+        "path": "/search/:query",
+        "categories": [
+          "multimedia"
+        ],
+        "example": "/jable/search/みなみ羽琉",
+        "parameters": {
+          "query": "Search keyword"
+        },
+        "features": {
+          "requireConfig": false,
+          "requirePuppeteer": false,
+          "antiCrawler": false,
+          "supportBT": false,
+          "supportPodcast": false,
+          "supportScihub": false,
+          "nsfw": true
+        },
+        "name": "Jable 搜索结果",
+        "maintainers": [],
+        "location": "index.ts",
+        "module": "() => import('@/routes/jable/index.ts')"
+      }
+    },
+    "apiRoutes": {},
+    "name": "jable",
+    "url": "jable.tv",
+    "lang": "zh"
+  },
   "jamesclear": {
     "routes": {
       "/book-summaries": {
