@@ -2770,6 +2770,7 @@ export type RoutePath =
   | `/theverge/:hub?`
   | `/thewirehindi/`
   | `/thewirehindi/category/:category`
+  | `/thinkingmachines/news`
   | `/thoughtco/:category?`
   | `/thoughtworks/blog`
   | `/threads/:user/:routeParams?`
