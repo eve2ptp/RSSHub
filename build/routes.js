@@ -66600,8 +66600,18 @@ export default {
           "supportScihub": false,
           "nsfw": true
         },
+        "radar": [
+          {
+            "source": [
+              "jable.tv/search/:query"
+            ],
+            "target": "/search/:query"
+          }
+        ],
         "name": "Jable 搜索结果",
-        "maintainers": [],
+        "maintainers": [
+          "eve2ptp"
+        ],
         "location": "index.ts",
         "module": () => import('@/routes/jable/index.ts')
       }

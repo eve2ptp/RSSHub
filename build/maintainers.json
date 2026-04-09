@@ -4771,7 +4771,9 @@
   "/j-test/news": [
     "kuhahku"
   ],
-  "/jable/search/:query": [],
+  "/jable/search/:query": [
+    "eve2ptp"
+  ],
   "/jamesclear/book-summaries": [
     "Rjnishant530"
   ],
