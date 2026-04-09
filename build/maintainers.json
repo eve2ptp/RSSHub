@@ -9386,7 +9386,9 @@
   "/xboxfan/news": [
     "XXY233"
   ],
-  "/xhamster/:creators": [],
+  "/xhamster/:creators": [
+    "eve2ptp"
+  ],
   "/xianbao/:category?": [
     "nashi23"
   ],

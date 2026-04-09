@@ -132486,7 +132486,9 @@ export default {
           }
         ],
         "name": "最近更新",
-        "maintainers": [],
+        "maintainers": [
+          "eve2ptp"
+        ],
         "url": "xhamster.com/faustina-pierre/newest",
         "location": "index.ts",
         "module": () => import('@/routes/xhamster/index.ts')
