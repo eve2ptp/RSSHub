@@ -28,7 +28,7 @@ export const route: Route = {
         },
     ],
     name: '最近更新',
-    maintainers: [],
+    maintainers: ['eve2ptp'],
     handler,
     url: 'xhamster.com/faustina-pierre/newest',
 };
@@ -61,9 +61,11 @@ interface Initials {
 }
 
 function extractInitials(scriptContent: string): Initials {
-    const withoutPrefix = scriptContent.replace(/^\s*window\.initials\s*=\s*/, '').trim();
-    const jsonStr = withoutPrefix.endsWith(';') ? withoutPrefix.slice(0, -1) : withoutPrefix;
-    return JSON.parse(jsonStr);
+    const match = scriptContent.match(/window\.initials\s*=\s*([\s\S]*?);?$/);
+    if (!match) {
+        throw new Error('initials not found');
+    }
+    return JSON.parse(match[1]);
 }
 
 function formatDuration(seconds: number): string {
@@ -79,33 +81,32 @@ function renderDescription(video: VideoThumb & { author?: string }): string {
     const views = video.views === undefined ? '' : video.views.toLocaleString();
     const quality = video.isUHD ? '<span>4K</span>' : '';
 
+    const meta: string[] = [];
+
+    if (quality) {
+        meta.push(quality);
+    }
+    if (duration) {
+        meta.push(`<strong>Duration:</strong> ${duration}`);
+    }
+    if (views) {
+        meta.push(`<strong>Views:</strong> ${views}`);
+    }
+
     return `
-        <a href="${video.pageURL}">
-            <img src="${thumb}" alt="${video.title}" style="max-width:100%" />
-        </a>
-        <p>
-            ${quality}
-            ${duration ? `<strong>Duration:</strong> ${duration}` : ''}
-            ${views ? `｜<strong>Views:</strong> ${views}` : ''}
-            ${video.author ? `｜<strong>Author:</strong> ${video.author}` : ''}
-        </p>
+        <img src="${thumb}" alt="${video.title}" style="max-width:100%" />
+        <p>${meta.join(' ｜ ')}</p>
     `.trim();
 }
-
-const GOT_HEADERS = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
-    'Accept-Language': 'en-US,en;q=0.9',
-    Referer: 'https://xhamster.com/',
-};
 
 async function handler(ctx) {
     const { creators } = ctx.req.param();
     const pageUrl = `https://xhamster.com/creators/${encodeURIComponent(creators)}/newest`;
 
-    const response = await got(pageUrl, { headers: GOT_HEADERS });
+    const response = await got(pageUrl);
 
     const $ = load(response.data);
-    const initialsRaw = $('#initials-script').html();
+    const initialsRaw = $('#initials-script').text();
     if (!initialsRaw) {
         throw new Error('Could not locate initials script on page');
     }
@@ -122,20 +123,8 @@ async function handler(ctx) {
 
     const items = await Promise.all(
         videos.map((video) =>
-            cache.tryGet(`xhamster:video:${video.id}`, async () => {
-                // 尝试获取单个视频页面以提取更完整的信息
-                let author = creatorName;
-                try {
-                    const { data } = await got(video.pageURL, { headers: GOT_HEADERS });
-                    const $page = load(data);
-                    // 从视频页面提取作者名，xHamster 视频页的上传者通常在此选择器
-                    const uploaderText = $page('.video-author-wrap a').first().text().trim();
-                    if (uploaderText) {
-                        author = uploaderText;
-                    }
-                } catch {
-                    // 页面抓取失败时降级使用列表页数据
-                }
+            cache.tryGet(`xhamster:video:${video.id}`, () => {
+                const author = creatorName;
 
                 const enriched = { ...video, author };
 
@@ -161,7 +150,7 @@ async function handler(ctx) {
     );
 
     return {
-        title: `${creatorName} – Newest | xHamster`,
+        title: `${creatorName} - Newest | xHamster`,
         link: pageUrl,
         description: `Latest videos from ${creatorName} on xHamster`,
         item: items,
