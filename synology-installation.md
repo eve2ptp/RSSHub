@@ -4,16 +4,16 @@
 
 ## 一、最终目标
 
-| 项目        | 版本 / 路径               |
-| --------- | --------------------- |
-| 操作系统架构    | Linux x86-64          |
-| Node.js   | 24.15.0               |
-| npm       | 11.12.1（随 Node 附带）    |
-| pnpm      | 12.16.1               |
-| Node 安装目录 | `.runtime/node`       |
-| pnpm 安装目录 | `.runtime/pnpm`       |
-| pnpm 缓存目录 | `.runtime/pnpm-store` |
-| 临时目录      | `.runtime/tmp`        |
+| 项目          | 版本 / 路径             |
+| ------------- | ----------------------- |
+| 操作系统架构  | Linux x86-64            |
+| Node.js       | 24.15.0                 |
+| npm           | 11.12.1（随 Node 附带） |
+| pnpm          | 12.16.1                 |
+| Node 安装目录 | `.runtime/node`         |
+| pnpm 安装目录 | `.runtime/pnpm`         |
+| pnpm 缓存目录 | `.runtime/pnpm-store`   |
+| 临时目录      | `.runtime/tmp`          |
 
 ## 二、创建项目运行环境
 
@@ -71,11 +71,9 @@ v24.15.0
 
 官方来源：[Node.js 24.15.0 下载页面](https://nodejs.org/en/download/archive/v24.15.0?utm_source=chatgpt.com)。
 
-[image](https://www.google.com/s2/favicons?domain=https://nodejs.org\&sz=32)
+[image](https://www.google.com/s2/favicons?domain=https://nodejs.org&sz=32)
 
 Run JavaScript Everywhere+1
-
-
 
 ## 四、安装独立 pnpm 12.16.1
 
@@ -98,12 +96,12 @@ curl -fsSL https://get.pnpm.io/install.sh | env \
 
 参数说明：
 
-| 参数                      | 作用              |
-| ----------------------- | --------------- |
-| `TMPDIR`                | 临时文件放在 RSSHub 内 |
-| `PNPM_HOME`             | pnpm 独立安装目录     |
-| `PNPM_NO_MODIFY_PATH=1` | 不修改系统 PATH      |
-| `PNPM_VERSION`          | 固定 pnpm 版本      |
+| 参数                    | 作用                     |
+| ----------------------- | ------------------------ |
+| `TMPDIR`                | 临时文件放在 RSSHub 内   |
+| `PNPM_HOME`             | pnpm 独立安装目录        |
+| `PNPM_NO_MODIFY_PATH=1` | 不修改系统 PATH          |
+| `PNPM_VERSION`          | 固定 pnpm 版本           |
 | `SHELL`                 | 指定安装脚本使用的 Shell |
 
 验证：
@@ -120,11 +118,9 @@ curl -fsSL https://get.pnpm.io/install.sh | env \
 
 pnpm 官方安装说明：[pnpm Installation](https://pnpm.io/installation?utm_source=chatgpt.com)。
 
-[image](https://www.google.com/s2/favicons?domain=https://pnpm.io\&sz=32)
+[image](https://www.google.com/s2/favicons?domain=https://pnpm.io&sz=32)
 
 pnpm+1
-
-
 
 ## 五、创建独立运行脚本
 
@@ -276,8 +272,8 @@ exec-ok
 
 这样 RSSHub 就拥有独立的 Node.js 和 pnpm 运行环境，不会干扰群晖其他项目。
 
-
 ## 需要升级到 Node.js 24.15.0 或 26.13.0
+
 ```sh
 node -v
 v22.22.3
@@ -286,6 +282,7 @@ node -p "require('./package.json').engines"
 ```
 
 ## 群晖构建报错：Error: EMFILE: too many open files 解决办法
+
 ```sh
 su - <user>
 ulimit -n 65535
